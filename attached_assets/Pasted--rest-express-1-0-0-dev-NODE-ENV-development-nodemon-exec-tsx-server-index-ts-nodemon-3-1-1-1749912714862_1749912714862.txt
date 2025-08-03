@@ -1,0 +1,64 @@
+
+> rest-express@1.0.0 dev
+> NODE_ENV=development nodemon --exec tsx server/index.ts
+
+[nodemon] 3.1.10
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): server/**/* shared/**/*
+[nodemon] watching extensions: ts,js,json
+[nodemon] starting `tsx server/index.ts`
+Seeding default users...
+Error seeding default users: error: column "password_hash" does not exist
+    at file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1345:74
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async NeonPreparedQuery.execute (/home/runner/workspace/node_modules/src/neon-serverless/session.ts:102:18)
+    at async DatabaseStorage.getUserByEmail (/home/runner/workspace/server/storage.ts:62:20)
+    at async seedDefaultUsers (/home/runner/workspace/server/seedUsers.ts:11:27)
+    at async <anonymous> (/home/runner/workspace/server/index.ts:43:5) {
+  length: 113,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '71',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Failed to seed default users: error: column "password_hash" does not exist
+    at file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1345:74
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async NeonPreparedQuery.execute (/home/runner/workspace/node_modules/src/neon-serverless/session.ts:102:18)
+    at async DatabaseStorage.getUserByEmail (/home/runner/workspace/server/storage.ts:62:20)
+    at async seedDefaultUsers (/home/runner/workspace/server/seedUsers.ts:11:27)
+    at async <anonymous> (/home/runner/workspace/server/index.ts:43:5) {
+  length: 113,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '71',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+2:50:26 PM [express] serving on port 5000
+Browserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
