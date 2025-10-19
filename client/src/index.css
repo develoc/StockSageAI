@@ -3,28 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(20, 14.3%, 4.1%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(60, 4.8%, 95.9%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(60, 4.8%, 95.9%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
-  --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14.3%, 4.1%);
-  --radius: 0.5rem;
-
-  /* Quantum theme colors */
+  /* Quantum theme colors - primary theme */
   --quantum-dark: hsl(220, 19%, 7%);
   --quantum-gray: hsl(220, 13%, 11%);
   --quantum-accent: hsl(191, 100%, 50%);
@@ -33,6 +12,28 @@
   --quantum-warning: hsl(35, 91%, 62%);
   --quantum-text: hsl(210, 40%, 96%);
   --quantum-text-secondary: hsl(217, 10%, 58%);
+
+  /* Base UI components inherit quantum theme */
+  --background: var(--quantum-dark);
+  --foreground: var(--quantum-text);
+  --muted: hsl(223, 13%, 15%);
+  --muted-foreground: var(--quantum-text-secondary);
+  --popover: var(--quantum-gray);
+  --popover-foreground: var(--quantum-text);
+  --card: var(--quantum-gray);
+  --card-foreground: var(--quantum-text);
+  --border: hsl(220, 13%, 20%);
+  --input: hsl(220, 13%, 20%);
+  --primary: var(--quantum-accent);
+  --primary-foreground: var(--quantum-dark);
+  --secondary: var(--quantum-gray);
+  --secondary-foreground: var(--quantum-text);
+  --accent: var(--quantum-accent);
+  --accent-foreground: var(--quantum-dark);
+  --destructive: var(--quantum-danger);
+  --destructive-foreground: var(--quantum-text);
+  --ring: var(--quantum-accent);
+  --radius: 0.5rem;
 }
 
 .dark {
@@ -245,4 +246,60 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--quantum-success);
+}
+
+/* Enhanced Quantum Theme Variables */
+:root {
+  /* Base Colors */
+  --quantum-background: linear-gradient(145deg, #1a1a2e, #16213e);
+  --quantum-card-bg: rgba(30, 41, 59, 0.8);
+  --quantum-text: #ffffff;
+  --quantum-text-secondary: rgba(255, 255, 255, 0.7);
+  --quantum-border: rgba(255, 255, 255, 0.1);
+  
+  /* UI Elements */
+  --quantum-primary: linear-gradient(45deg, #3490dc, #6574cd);
+  --quantum-secondary: linear-gradient(45deg, #4c51bf, #6b46c1);
+  --quantum-accent: #60a5fa;
+  --quantum-input-bg: rgba(15, 23, 42, 0.7);
+  --quantum-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  
+  /* Status Colors */
+  --quantum-success: #10b981;
+  --quantum-warning: #f59e0b;
+  --quantum-error: #ef4444;
+  --quantum-info: #3b82f6;
+  
+  /* Logo Specific */
+  --quantum-logo-bg: linear-gradient(45deg, #3490dc, #6574cd);
+  --quantum-logo-text: linear-gradient(to right, #ffffff, #e2e8f0);
+  
+  /* Link Colors */
+  --quantum-link: #60a5fa;
+  --quantum-link-hover: #93c5fd;
+}
+
+/* Apply Quantum theme to standard UI components */
+.quantum-theme button,
+.quantum-button {
+  background: var(--quantum-primary);
+  color: var(--quantum-text);
+  border: none;
+  border-radius: 8px;
+}
+
+.quantum-theme input,
+.quantum-input {
+  background: var(--quantum-input-bg);
+  border: 1px solid var(--quantum-border);
+  color: var(--quantum-text);
+  border-radius: 8px;
+}
+
+.quantum-theme a {
+  color: var(--quantum-link);
+}
+
+.quantum-theme a:hover {
+  color: var(--quantum-link-hover);
 }

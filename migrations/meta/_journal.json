@@ -8,6 +8,13 @@
       "when": 1749729312230,
       "tag": "0000_naive_zuras",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1755478005929,
+      "tag": "0001_yummy_oracle",
+      "breakpoints": true
     }
   ]
 }

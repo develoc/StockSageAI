@@ -157,7 +157,7 @@ export default function Landing() {
           <div className="mb-12 space-y-6">
             <h1 className="text-7xl font-bold mb-6 relative">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent animate-pulse">
-                QuantumTrade
+                Quantum Trade
               </span>
               <div className="text-2xl mt-2 font-light">
                 <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">

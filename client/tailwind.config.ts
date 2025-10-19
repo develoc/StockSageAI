@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       borderRadius: {
@@ -11,6 +11,18 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        // Quantum Theme Colors
+        quantum: {
+          dark: "var(--quantum-dark)",
+          gray: "var(--quantum-gray)",
+          accent: "var(--quantum-accent)",
+          success: "var(--quantum-success)",
+          danger: "var(--quantum-danger)",
+          warning: "var(--quantum-warning)",
+          text: "var(--quantum-text)",
+          "text-secondary": "var(--quantum-text-secondary)",
+        },
+        // Standard UI Colors
         background: "var(--background)",
         foreground: "var(--foreground)",
         card: {

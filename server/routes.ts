@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupCustomAuth, authenticateToken, requireAdmin } from "./auth";
+import docsRoutes from "./docsRoutes";
 
 // Role-based access control middleware
 const requireRole = (requiredRole: string) => {
@@ -27,6 +28,75 @@ import { insertMarketDataSchema, insertStrategySchema, insertAIInsightSchema } f
 import { seedDatabase } from "./seedData";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Documentation endpoints
+  app.use('/api/docs', docsRoutes);
+
+  // Health check endpoint - accessible without auth
+  app.get('/api/health', async (req, res) => {
+    try {
+      // Check API key status
+      let alphaVantageStatus = 'unknown';
+      let coinGeckoStatus = 'unknown';
+      
+      try {
+        // Try to make a simple API call to check if Alpha Vantage is accessible
+        const axios = require('axios');
+        const avResponse = await axios.get(
+          'https://www.alphavantage.co/query',
+          {
+            params: {
+              function: 'TIME_SERIES_INTRADAY',
+              symbol: 'IBM',
+              interval: '5min',
+              apikey: process.env.ALPHA_VANTAGE_API_KEY || 'RZ1QB6NQJ5P85SPN',
+              outputsize: 'compact'
+            },
+            timeout: 3000 // Short timeout for health check
+          }
+        );
+        
+        if (avResponse.data && avResponse.data.Note && avResponse.data.Note.includes('call frequency')) {
+          alphaVantageStatus = 'rate-limited';
+        } else if (avResponse.data && (avResponse.data['Time Series (5min)'] || avResponse.data['Meta Data'])) {
+          alphaVantageStatus = 'ok';
+        } else {
+          alphaVantageStatus = 'error';
+        }
+      } catch (error) {
+        alphaVantageStatus = 'error';
+      }
+      
+      // Check database connection status by making a simple storage call
+      let dbStatus = 'ok';
+      try {
+        await storage.getAllUsers();
+      } catch (error) {
+        dbStatus = 'error';
+        console.error('Database connection error in health check');
+      }
+      
+      res.json({
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development',
+        port: process.env.PORT || 3000,
+        api: {
+          alphaVantage: alphaVantageStatus,
+          coinGecko: coinGeckoStatus
+        },
+        database: dbStatus,
+        uptime: process.uptime()
+      });
+    } catch (error) {
+      console.error('Health check error');
+      res.status(500).json({ 
+        status: 'error',
+        message: 'Health check failed', 
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
   // Auth middleware
   await setupCustomAuth(app);
 
@@ -347,6 +417,94 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching users:", error);
       res.status(500).json({ message: "Failed to fetch users" });
+    }
+  });
+
+  // Alert routes
+  app.get('/api/alerts', authenticateToken, async (req: any, res) => {
+    try {
+      const alerts = await storage.getUserAlerts(req.user.userId);
+      res.json(alerts);
+    } catch (error) {
+      console.error("Error fetching alerts:", error);
+      res.status(500).json({ message: "Failed to fetch alerts" });
+    }
+  });
+
+  app.post('/api/alerts', authenticateToken, async (req: any, res) => {
+    try {
+      const { type, asset, condition, value } = req.body;
+      const alert = await storage.createAlert({
+        type,
+        asset,
+        condition,
+        value,
+        userId: req.user.userId,
+        active: true
+      });
+      res.status(201).json(alert);
+    } catch (error) {
+      console.error("Error creating alert:", error);
+      res.status(500).json({ message: "Failed to create alert" });
+    }
+  });
+
+  app.put('/api/alerts/:id', authenticateToken, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { active } = req.body;
+      const alert = await storage.updateAlert(parseInt(id), { active });
+      res.json(alert);
+    } catch (error) {
+      console.error("Error updating alert:", error);
+      res.status(500).json({ message: "Failed to update alert" });
+    }
+  });
+
+  app.delete('/api/alerts/:id', authenticateToken, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteAlert(parseInt(id));
+      res.json({ message: "Alert deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting alert:", error);
+      res.status(500).json({ message: "Failed to delete alert" });
+    }
+  });
+
+  // User settings routes
+  app.get('/api/user/settings', authenticateToken, async (req: any, res) => {
+    try {
+      const settings = await storage.getUserSettings(req.user.userId);
+      res.json(settings);
+    } catch (error) {
+      console.error("Error fetching user settings:", error);
+      res.status(500).json({ message: "Failed to fetch user settings" });
+    }
+  });
+
+  app.put('/api/user/settings', authenticateToken, async (req: any, res) => {
+    try {
+      const settings = await storage.updateUserSettings(req.user.userId, req.body);
+      res.json(settings);
+    } catch (error) {
+      console.error("Error updating user settings:", error);
+      res.status(500).json({ message: "Failed to update user settings" });
+    }
+  });
+
+  app.put('/api/user/security', authenticateToken, async (req: any, res) => {
+    try {
+      const { currentPassword, newPassword, twoFactorEnabled } = req.body;
+      const security = await storage.updateUserSecurity(req.user.userId, {
+        currentPassword,
+        newPassword,
+        twoFactorEnabled
+      });
+      res.json(security);
+    } catch (error) {
+      console.error("Error updating security settings:", error);
+      res.status(500).json({ message: "Failed to update security settings" });
     }
   });
 

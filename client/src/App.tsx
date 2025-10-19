@@ -3,6 +3,7 @@ import { Router, Route, Switch } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Landing from "./pages/landing";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
@@ -10,13 +11,19 @@ import Portfolio from "./pages/portfolio";
 import Trading from "./pages/trading";
 import Profile from "./pages/profile";
 import NotFound from "./pages/not-found";
-import { useAuth } from "./hooks/useAuth";
 import AIAnalysis from "./pages/ai-analysis";
 import Assets from "./pages/assets";
 import Strategies from "./pages/strategies";
 import Users from "./pages/users";
 import Register from "./pages/register";
 import UserManagement from "./pages/user-management";
+import PrivacyPolicy from "./pages/privacy-policy";
+import TermsAndConditions from "./pages/terms-and-conditions";
+import Security from "./pages/security";
+import DataAnalytics from "./pages/data-analytics";
+import Alerts from "./pages/alerts";
+import Settings from "./pages/settings";
+import Layout from "@/components/Layout";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
@@ -28,6 +35,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
       </div>
     );
   }
+  
 
   if (!isAuthenticated) {
     window.location.href = '/login';
@@ -40,60 +48,86 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <Toaster />
-        <Switch>
-          <Route path="/" component={Landing} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/dashboard">
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          </Route>
-          <Route path="/portfolio">
-            <ProtectedRoute>
-              <Portfolio />
-            </ProtectedRoute>
-          </Route>
-          <Route path="/trading">
-            <ProtectedRoute>
-              <Trading />
-            </ProtectedRoute>
-          </Route>
-          <Route path="/profile">
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          </Route>
-          <Route path="/ai-analysis">
-            <ProtectedRoute>
-              <AIAnalysis />
-            </ProtectedRoute>
-          </Route>
-          <Route path="/assets">
-            <ProtectedRoute>
-              <Assets />
-            </ProtectedRoute>
-          </Route>
-          <Route path="/strategies">
-            <ProtectedRoute>
-              <Strategies />
-            </ProtectedRoute>
-          </Route>
-          <Route path="/users">
-            <ProtectedRoute>
-              <Users />
-            </ProtectedRoute>
-          </Route>
-          <Route path="/user-management">
-            <ProtectedRoute>
-              <UserManagement />
-            </ProtectedRoute>
-          </Route>
-          <Route component={NotFound} />
-        </Switch>
+      <AuthProvider>
+        <Router>
+          <Toaster />
+          <Layout>
+          <Switch>
+            <Route path="/" component={Landing} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/dashboard">
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/portfolio">
+              <ProtectedRoute>
+                <Portfolio />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/trading">
+              <ProtectedRoute>
+                <Trading />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/profile">
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/ai-analysis">
+              <ProtectedRoute>
+                <AIAnalysis />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/assets">
+              <ProtectedRoute>
+                <Assets />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/strategies">
+              <ProtectedRoute>
+                <Strategies />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/users">
+              <ProtectedRoute>
+                <Users />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/user-management">
+              <ProtectedRoute>
+                <UserManagement />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/security">
+              <ProtectedRoute>
+                <Security />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/data-analytics">
+              <ProtectedRoute>
+                <DataAnalytics />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/alerts">
+              <ProtectedRoute>
+                <Alerts />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/settings">
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/privacy-policy" component={PrivacyPolicy} />
+            <Route path="/terms-and-conditions" component={TermsAndConditions} />
+            <Route component={NotFound} />
+          </Switch>
+        </Layout>
       </Router>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

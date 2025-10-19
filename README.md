@@ -1,7 +1,28 @@
 
+<div align="center">
+
+```
+     ┌─────────────────────────────────┐       
+     │       QuantumTrade AI           │       
+     └────────────────┬────────────────┘       
+                      │                        
+     ┌────────────────┴────────────────┐       
+     │        ╭───┬───╮                │       
+     │      ╭─┤ ◯ │ ◯ ├─╮              │       
+     │    ╭─┤     ◯     ├─╮            │       
+     │  ╭─┤           ◯   ├─╮          │       
+     │  │                   │          │       
+     │  ╰───────────────────╯          │       
+     └─────────────────────────────────┘       
+                                               
+     🔮 QUANTUM-POWERED TRADING 🔮
+```
+
 # QuantumTrade AI - Advanced Trading Platform
 
 A sophisticated AI-powered trading platform built with React, TypeScript, Express.js, and PostgreSQL. Features real-time market data, AI-driven insights, and automated trading strategies.
+
+</div>
 
 ## 🚀 Features
 
@@ -103,11 +124,14 @@ quantumtrade-ai/
 ├── client/                 # Frontend React application
 │   ├── src/
 │   │   ├── components/     # Reusable UI components
+│   │   │   └── ui/         # UI components including the quantum logo
+│   │   ├── contexts/       # React contexts including AuthContext
 │   │   ├── hooks/         # Custom React hooks
-│   │   ├── lib/           # Utility functions
-│   │   ├── pages/         # Page components
+│   │   ├── lib/           # Utility functions including axiosClient
+│   │   ├── pages/         # Page components with quantum styling
 │   │   └── types/         # TypeScript type definitions
-│   └── index.html         # HTML entry point
+│   ├── public/            # Static assets
+│   └── index.html         # HTML entry point with FontAwesome integration
 ├── server/                # Backend Express application
 │   ├── auth.ts           # Authentication logic
 │   ├── db.ts             # Database connection

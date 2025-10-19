@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Starting StockSageAI v1.0..."
+echo "🚀 Starting Quantum Trade v1.0..."
 echo "=================================="
 
 # Check if .env file exists

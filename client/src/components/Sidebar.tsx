@@ -15,7 +15,7 @@ export default function Sidebar() {
     { icon: "chart-candlestick", label: "Trading", href: "/trading", active: location === "/trading" },
     { icon: "users", label: "User Management", href: "/user-management", active: location === "/user-management" },
     { icon: "shield-check", label: "Security", href: "/security", active: location === "/security" },
-    { icon: "database", label: "Data Analytics", href: "/analytics", active: location === "/analytics" },
+    { icon: "database", label: "Data Analytics", href: "/data-analytics", active: location === "/data-analytics" },
     { icon: "bell", label: "Alerts", href: "/alerts", active: location === "/alerts" },
     { icon: "cog", label: "Settings", href: "/settings", active: location === "/settings" },
   ];
